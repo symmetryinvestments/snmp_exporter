@@ -524,12 +524,20 @@ func generateConfigModule(cfg *ModuleConfig, node *Node, nameToNode map[string]*
 	}
 
 	// Apply module config overrides to their corresponding metrics.
-	for name, params := range cfg.Overrides {
-		for _, metric := range out.Metrics {
+	for _, metric := range out.Metrics {
+		for name, params := range cfg.Overrides {
 			if name == metric.Name || name == metric.Oid {
 				metric.RegexpExtracts = params.RegexpExtracts
 				metric.Offset = params.Offset
 				metric.Scale = params.Scale
+				if params.Rename != "" {
+					metric.Name = sanitizeLabelName(params.Rename)
+				}
+			}
+			for _, index := range metric.Indexes {
+				if name == index.Labelname && params.Rename != "" {
+					index.Labelname = sanitizeLabelName(params.Rename)
+				}
 			}
 		}
 	}

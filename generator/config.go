@@ -15,8 +15,9 @@ package main
 
 import (
 	"fmt"
-	"github.com/prometheus/snmp_exporter/config"
 	"strconv"
+
+	"github.com/prometheus/snmp_exporter/config"
 )
 
 // The generator config.
@@ -32,6 +33,7 @@ type MetricOverrides struct {
 	Offset         float64                           `yaml:"offset,omitempty"`
 	Scale          float64                           `yaml:"scale,omitempty"`
 	Type           string                            `yaml:"type,omitempty"`
+	Rename         string                            `yaml:"rename,omitempty"`
 }
 
 // UnmarshalYAML implements the yaml.Unmarshaler interface.
